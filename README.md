@@ -1,3 +1,4 @@
+entirely vibecoded
 # XMacroWindow
 
 A better macro window for **World of Warcraft: Forever** (client 1.60.1, Interface 16001).
