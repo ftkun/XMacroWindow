@@ -1,0 +1,23 @@
+## Interface: 16001
+## Title: |cFFFF0000X|rMacroWindow
+## Notes: A better macro window, /xmw for commands
+## Author: ftkun
+## Version: 0.96 19 October 2026
+## SavedVariables: XMacroWindowDB
+## OptionalDeps: LibSharedMedia-3.0
+
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Libs\LibSharedMedia-3.0\lib.xml
+
+Locale.lua
+Fonts.lua
+Core.lua
+Colorize.lua
+Editor.lua
+Browser.lua
+Window.lua
+MacroList.lua
+IconPicker.lua
+Config.lua
+Extras.lua
