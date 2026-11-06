@@ -27,7 +27,7 @@ local GetMacroInfo, GetNumMacros = GetMacroInfo, GetNumMacros
 local UnitName, UnitClass, GetRealmName = UnitName, UnitClass, GetRealmName
 
 local MAX_DELETED = 666 -- how many deleted macros the Deleted list keeps
-local DEFAULTS = { scale = 1.2, colors = true, locked = false, preset = "DarkModeDefault" }
+local DEFAULTS = { scale = 1.2, colors = true, locked = false, preset = "DarkModeDefault", itemLinks = true }
 
 ------------------------------------------------------------------------
 -- Shared helpers
@@ -312,6 +312,7 @@ local function PrintHelp()
     Print("  /xmw lock - " .. L["lock the macro window (no moving or resizing)"])
     Print("  /xmw unlock - " .. L["unlock the macro window"])
     Print("  /xmw reset position - " .. L["move all addon windows back to their default spots"])
+    Print("  /xmw links - " .. L["ctrl-click items, recipes and spells into the macro as links (on/off)"])
     Print("  /xmw help - " .. L["this help"])
 end
 
@@ -327,6 +328,9 @@ SlashCmdList["XMACROWINDOW"] = function(input)
         SetLocked(false)
     elseif msg == "reset position" then
         ns.ResetAllPositions()
+    elseif msg == "links" then
+        db.itemLinks = not db.itemLinks
+        Print(db.itemLinks and L["ctrl-click links on"] or L["ctrl-click links off"])
     else -- "", "help" and anything unknown
         PrintHelp()
     end

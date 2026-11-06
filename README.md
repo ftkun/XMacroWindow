@@ -10,6 +10,7 @@ A better macro window for **World of Warcraft: Forever** (client 1.60.1, Interfa
 - Icon search (by name or file ID)
 - Keeps all account macros and a log of deleted macros (restore them later)
 - Syntax colouring and character counter in the editor
+- Ctrl+click an item, recipe, profession or spell (bags, professions window, spellbook, chat links) while the macro window is open to insert its link into the macro, e.g. `/s WTS [Linen Cloth]`. Spell ranks / "(Racial)" go right after the link as plain text (`[Fireball] (Rank 2)`), because the server rejects spell links that include them
 
 ## Install
 
@@ -22,6 +23,7 @@ Copy the `XMacroWindow` folder into your game's `Interface\AddOns\` folder and `
 | `/xmw opt` | Options window |
 | `/xmw lock` / `/xmw unlock` | Lock / unlock moving and resizing |
 | `/xmw reset position` | Move all addon windows back to default spots |
+| `/xmw links` | Turn ctrl+click links on / off |
 | `/xmw help` | Command list |
 
 ## Credits

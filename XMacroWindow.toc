@@ -2,7 +2,7 @@
 ## Title: |cFFFF0000X|rMacroWindow
 ## Notes: A better macro window, /xmw for commands
 ## Author: ftkun
-## Version: 0.96 19 October 2026
+## Version: 0.97 06 November 2026
 ## SavedVariables: XMacroWindowDB
 ## OptionalDeps: LibSharedMedia-3.0
 
