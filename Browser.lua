@@ -159,6 +159,30 @@ local function SortedCharKeys(db)
     return keys
 end
 
+-- remove another character's saved macros from the browser (dropdown submenu, asks first).
+-- Only addon data is removed; the character logs back in -> saved again.
+function ns.ForgetCharacter(key)
+    local c = ns.db.chars[key]
+    if not c then return end
+    if not StaticPopupDialogs.XMW_FORGET_CHAR then
+        StaticPopupDialogs.XMW_FORGET_CHAR = {
+            text = L["Delete %s and %d saved macros from the XMacro Browser?"],
+            button1 = YES,
+            button2 = NO,
+            OnAccept = function(_, k)
+                ns.db.chars[k] = nil
+                if filterKey == k then filterKey = "ALL" end
+                RefreshBrowser()
+            end,
+            timeout = 0,
+            whileDead = true,
+            hideOnEscape = true,
+            showAlert = true,
+        }
+    end
+    StaticPopup_Show("XMW_FORGET_CHAR", ColoredName(c), #(c.macros or {}), key)
+end
+
 -- the list for the current dropdown choice and search text
 local function BuildEntries(query)
     local db = ns.db
@@ -321,10 +345,16 @@ local function CreateBrowser()
         for _, k in ipairs(SortedCharKeys(db)) do
             local c = db.chars[k]
             local line = root:CreateButton(ColoredName(c) .. " (" .. #c.macros .. ")", function() Pick(k) end)
-            -- another character with macros: a submenu (hover the line) to copy them all here (Extras.lua)
-            if k ~= me and #c.macros > 0 then
-                line:CreateButton(L["Copy all %d macros to this character"]:format(#c.macros), function()
-                    ns.CopyAllFromCharacter(k)
+            -- another character: a submenu (hover the line) to copy its macros here (Extras.lua)
+            -- or delete it from this list (the current character would be re-saved at once)
+            if k ~= me then
+                if #c.macros > 0 then
+                    line:CreateButton(L["Copy all %d macros to this character"]:format(#c.macros), function()
+                        ns.CopyAllFromCharacter(k)
+                    end)
+                end
+                line:CreateButton("|cffff6060" .. L["Delete character from list"] .. "|r", function()
+                    ns.ForgetCharacter(k)
                 end)
             end
         end

@@ -100,14 +100,29 @@ end
 
 local function Active()
     local eb, db = MacroFrameText, ns.db
-    return eb and db and db.itemLinks and eb:IsVisible()
+    -- only while the macro text is being edited (same rule as the stock shift-click insert)
+    return eb and db and db.itemLinks and eb:IsVisible() and eb:HasFocus()
 end
 
--- fr is owner or one of its children (up to 8 levels)
-local function IsInside(fr, owner)
-    for _ = 1, 8 do
+-- fr is owner or one of its children (up to `depth` levels, default 8)
+local function IsInside(fr, owner, depth)
+    for _ = 1, depth or 8 do
         if not fr then return false end
         if fr == owner then return true end
+        fr = fr.GetParent and fr:GetParent()
+    end
+    return false
+end
+
+-- action bar / secure action buttons: a ctrl-click there casts, never insert from them
+local function IsActionButton(fr)
+    for _ = 1, 2 do
+        if not fr then return false end
+        if fr.action ~= nil then return true end
+        if fr.GetAttribute then
+            local ok, t = pcall(fr.GetAttribute, fr, "type")
+            if ok and t ~= nil then return true end
+        end
         fr = fr.GetParent and fr:GetParent()
     end
     return false
@@ -195,7 +210,7 @@ local function TooltipLink(fr)
     local tt = GameTooltip
     if not (tt and tt:IsShown()) then return end
     local owner = tt:GetOwner()
-    if not (owner and IsInside(fr, owner)) then return end
+    if not (owner and IsInside(fr, owner, 2)) then return end -- tooltip of this frame, not a far ancestor
     local ok, _, link = pcall(tt.GetItem, tt)
     if ok and type(link) == "string" and link:find("|H", 1, true) then return link end
     local ok2, name, id = pcall(tt.GetSpell, tt)
@@ -308,6 +323,7 @@ mouse:SetScript("OnEvent", function(_, event, button)
     if button ~= "LeftButton" or not Active() or not CtrlOnly() then return end
     local fr = FocusFrame()
     if not fr or IsInside(fr, MacroFrame) or IsInside(fr, _G.MacroPopupFrame) then return end
+    if IsActionButton(fr) then return end
     local ok, link, recipeID = pcall(function()
         local id = RecipeIDFrom(fr)
         local TS = _G.C_TradeSkillUI

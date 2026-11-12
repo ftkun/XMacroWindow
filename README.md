@@ -9,6 +9,7 @@ A better macro window for **World of Warcraft: Forever** (client 1.60.1, Interfa
 - Search macros by name and body
 - Icon search (by name or file ID)
 - Keeps all account macros and a log of deleted macros (restore them later)
+- XMacro Browser: hover a character in the character dropdown, then use the arrow menu to copy its macros to the current character or delete that character from the list (asks first; only the addon's saved copy is removed)
 - Syntax colouring and character counter in the editor
 - Ctrl+click an item, recipe, profession or spell (bags, professions window, spellbook, chat links) while the macro window is open to insert its link into the macro, e.g. `/s WTS [Linen Cloth]`. Spell ranks / "(Racial)" go right after the link as plain text (`[Fireball] (Rank 2)`), because the server rejects spell links that include them
 
